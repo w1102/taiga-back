@@ -18,8 +18,8 @@ steps:
     LDAP_PASSW:
       from_secret: lldap_passw
   commands:
-  - echo "LDAP_SERVER = $LDAP_SERVER" >> ./docker/config.append.py
-  - echo "LDAP_BIND_PASSWORD = $LDAP_PASSW" >> ./docker/config.append.py
+  - echo "LDAP_SERVER = '$LDAP_SERVER'" >> ./docker/config.append.py
+  - echo "LDAP_BIND_PASSWORD = '$LDAP_PASSW'" >> ./docker/config.append.py
   - echo "Ldap server is $LDAP_SERVER"
 
 
