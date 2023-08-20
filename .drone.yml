@@ -1,0 +1,45 @@
+kind: pipeline
+type: docker
+name: "taiga-back:arm64"
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+
+
+
+- name: append ldap secrets
+  image: bash
+  environment:
+    LDAP_SERVER:
+      from_secret: lldap_server
+    LDAP_PASSW:
+      from_secret: lldap_passw
+  commands:
+  - echo "LDAP_SERVER = $LDAP_SERVER" >> ./docker/config.append.py
+  - echo "LDAP_BIND_PASSWORD = $LDAP_PASSW" >> ./docker/config.append.py
+  - echo "Ldap server is $LDAP_SERVER"
+
+
+- name: build and push taiga back
+  image: plugins/docker
+  settings:
+    dockerfile: ./docker/Dockerfile
+    context: ./
+    registry: registry.tranquang.net
+    username: quangtran
+    password:
+      from_secret: registry_passw
+    repo: registry.tranquang.net/quangtran/taiga-back
+    tags:
+    - latest
+    cache_from: registry.tranquang.net/quangtran/taiga-back:latest
+
+
+
+trigger:
+  branch:
+  - arm64
+

@@ -52,10 +52,10 @@ RUN set -eux; \
 	command -v gpgconf && gpgconf --kill all || :; \
 	rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc; \
     # install Taiga dependencies
-    python -m pip install --upgrade pip; \
-    python -m pip install wheel; \
-    python -m pip install -r requirements.txt; \
-    python -m pip install -r requirements-contribs.txt; \
+    python -m pip install --default-timeout=1000000 --upgrade pip; \
+    python -m pip install --default-timeout=1000000 wheel; \
+    python -m pip install --default-timeout=1000000 -r requirements.txt; \
+    python -m pip install --default-timeout=1000000 -r requirements-contribs.txt; \
     python manage.py compilemessages; \
     python manage.py collectstatic --no-input; \
     chmod +x docker/entrypoint.sh; \
@@ -86,6 +86,12 @@ RUN set -eux; \
     find . -name '*po' -exec rm -r '{}' +
 
 ENV DJANGO_SETTINGS_MODULE=settings.config
+
+
+COPY docker/config.append.py /taiga-back/settings
+RUN cat /taiga-back/settings/config.append.py >> /taiga-back/settings/config.py && rm /taiga-back/settings/config.append.py
+
+RUN python -m pip install --default-timeout=1000000 taiga-contrib-ldap-auth-ext
 
 EXPOSE 8000
 ENTRYPOINT ["./docker/entrypoint.sh"]
