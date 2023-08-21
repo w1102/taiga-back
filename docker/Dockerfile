@@ -91,7 +91,8 @@ ENV DJANGO_SETTINGS_MODULE=settings.config
 COPY docker/config.append.py /taiga-back/settings
 RUN cat /taiga-back/settings/config.append.py >> /taiga-back/settings/config.py && rm /taiga-back/settings/config.append.py
 
-RUN python -m pip install --default-timeout=1000000 taiga-contrib-ldap-auth-ext
+#RUN python -m pip install --default-timeout=1000000 taiga-contrib-ldap-auth-ext
+RUN python -m pip install --default-timeout=1000000 git+https://github.com/w1102/taiga-contrib-ldap-auth.git
 
 EXPOSE 8000
 ENTRYPOINT ["./docker/entrypoint.sh"]
