@@ -9,6 +9,8 @@ LDAP_BIND_DN = "uid=admin,ou=people,dc=tranquang,dc=net"
 LDAP_SEARCH_BASE = 'ou=people,dc=tranquang,dc=net'
 LDAP_SEARCH_FILTER_ADDITIONAL = '(memberof=cn=lldap_todo,ou=groups,dc=tranquang,dc=net)'
 
+LDAP_GROUP_ADMIN = 'cn=lldap_admin,ou=groups,dc=tranquang,dc=net'
+
 LDAP_USERNAME_ATTRIBUTE = "uid"
 LDAP_EMAIL_ATTRIBUTE = "mail"
 LDAP_FULL_NAME_ATTRIBUTE = "displayName"
